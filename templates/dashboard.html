@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · StreamBox{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><div class="eyebrow">YOUR WORKSPACE</div><h1>Good to see you, {{ user.username }}.</h1><p class="muted">Your videos, all in one place.</p></div>
+</div>
+<div class="stats">
+  <div class="stat"><span>VIDEOS</span><strong>{{ videos|length }}</strong></div>
+  <div class="stat"><span>LIBRARY SIZE</span><strong>{{ (total_bytes / (1024*1024))|round(1) }} MB</strong></div>
+  <div class="stat"><span>STORAGE</span><strong>{{ 'Amazon S3' if config.get('STORAGE_BACKEND') == 's3' else 'Local' }}</strong></div>
+</div>
+<section class="panel upload-panel">
+  <div><div class="eyebrow">ADD TO YOUR LIBRARY</div><h2>Upload a video</h2><p class="muted">MP4, MOV, MKV, WEBM or AVI. FFmpeg converts supported inputs to browser-friendly MP4.</p></div>
+  <form method="post" action="{{ url_for('upload') }}" enctype="multipart/form-data" class="upload-form">
+    <label>Video title<input name="title" placeholder="Give your video a title"></label>
+    <label>Description<textarea name="description" rows="2" placeholder="What is this video about?"></textarea></label>
+    <label class="file-input">Choose video<input type="file" name="video" accept="video/*,.mkv,.avi" required></label>
+    <button class="button primary">Upload video</button>
+  </form>
+</section>
+<section class="library-heading"><div><div class="eyebrow">COLLECTION</div><h2>Your library</h2></div><span class="muted">{{ videos|length }} item(s)</span></section>
+{% if videos %}
+<div class="video-grid">
+  {% for video in videos %}
+  <article class="video-card">
+    <a class="thumbnail" href="{{ url_for('watch', video_id=video.id) }}"><span class="play">▶</span></a>
+    <div class="video-info">
+      <div class="video-title">{{ video.title }}</div>
+      <p>{{ video.description or video.filename }}</p>
+      <div class="video-meta"><span>{{ (video.size_bytes / (1024*1024))|round(1) }} MB</span><span class="status">{{ video.status }}</span></div>
+      <div class="card-actions">
+        <a href="{{ url_for('watch', video_id=video.id) }}">Watch video ↗</a>
+        <form method="post" action="{{ url_for('delete_video', video_id=video.id) }}" onsubmit="return confirm('Delete this video permanently?')"><button class="delete-button">Delete</button></form>
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><div class="empty-icon">▧</div><h3>Your library is empty</h3><p>Upload your first video and it will show up here.</p></div>
+{% endif %}
+{% endblock %}

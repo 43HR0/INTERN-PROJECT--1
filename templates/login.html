@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Log in · StreamBox{% endblock %}
+{% block content %}
+<section class="auth-card">
+  <div class="eyebrow">WELCOME BACK</div><h1>Log in</h1>
+  <form method="post" class="stack">
+    <label>Username<input name="username" required autocomplete="username"></label>
+    <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
+    <button class="button primary full">Log in</button>
+  </form>
+  <p class="muted">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+</section>
+{% endblock %}

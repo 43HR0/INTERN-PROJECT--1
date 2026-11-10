@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}StreamBox — Your videos, in one place{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="eyebrow">YOUR PERSONAL VIDEO LIBRARY</div>
+  <h1>Upload it.<br><span>Stream it.</span> Keep it organized.</h1>
+  <p>A simple home for your video content. Upload, process and watch your videos from one clean dashboard.</p>
+  <div class="hero-actions">
+    <a class="button primary" href="{{ url_for('register') }}">Get started</a>
+    <a class="button secondary" href="{{ url_for('login') }}">I already have an account</a>
+  </div>
+  <div class="feature-row">
+    <div><strong>01</strong><span>Secure accounts</span></div>
+    <div><strong>02</strong><span>Video processing</span></div>
+    <div><strong>03</strong><span>Cloud-ready storage</span></div>
+  </div>
+</section>
+{% endblock %}

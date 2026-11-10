@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}{{ video.title }} · StreamBox{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('dashboard') }}">← Back to dashboard</a>
+<div class="watch-heading"><div class="eyebrow">NOW PLAYING</div><h1>{{ video.title }}</h1><p class="muted">{{ video.description }}</p></div>
+<div class="player-wrap"><video controls playsinline preload="metadata" src="{{ playback_url }}">Your browser does not support HTML5 video.</video></div>
+<div class="video-details"><span>{{ video.filename }}</span><span>{{ (video.size_bytes / (1024*1024))|round(1) }} MB</span></div>
+{% endblock %}
